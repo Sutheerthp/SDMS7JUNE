@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Details Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #000000;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+        }
+        .stud_id{
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        h2 {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .module {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .module h3 {
+            margin-top: 0;
+        }
+        .module p {
+            margin-bottom: 0;
+        }
+        .module-actions {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .module-actions a {
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+        .module-actions a:hover {
+            background-color: #45a049;
+        }
+        nav {
+      background-color: #2c3e50;
+      padding: 10px 0;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+    }
+    nav ul li {
+      display: inline;
+    }
+    nav ul li a {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: #1abc9c;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c3e50;
+      min-width: 160px;
+      z-index: 1;
+      top: 100%;
+      left: 0;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      color: #fff;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    .dropdown-content a:hover {
+      background-color: #1abc9c;
+    }
+    .logout-form {
+      float: right;
+      top: 10px;
+      right: 10px;
+    }
+    .logout-button {
+      margin-top: 2px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em; /* Smaller font size */
+      padding: 8px 16px; /* Smaller padding */
+      transition: background-color 0.3s ease;
+    }
+    .logout-button:hover {
+      background-color: #acc5d6;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sports Details Management System</h1>
+    </header>
+    <nav>
+        <a href="{% url 'logout' %}" class="logout-form"><button class="logout-button">logout</button></a>
+        <a href="{% url 'signup' %}" class="logout-form"><button class="logout-button">signup</button></a>
+        <ul>
+          <li>
+            <a href="{% url 'home'%}">Home</a>
+          </li>
+          <li class="dropdown">
+            <a href="#">Player Management</a>
+            <div class="dropdown-content">
+                <a href="{% url 'view_student' %}">View student</a>
+                <a href="{% url 'add_student' %}">add student</a>
+                <a href="{% url 'assign_student' %}">assign student</a>
+                <a href="{% url 'assignview_student' %}">assign view</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="#">Team Management</a>
+            <div class="dropdown-content">
+                <a href="view_items">View Teams</a>
+                <a href="#">Create Team</a>
+                <a href="#">edit Team</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="#">Attendance</a>
+            <div class="dropdown-content">
+                <a href="{% url 'mark_attendance' %}">mark attendance</a>
+                <a href="{% url 'view_attendance' %}">view attendance</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="#">Picture Gallery</a>
+            <div class="dropdown-content">
+                <a href="#">View Gallery</a>
+                <a href="#">Upload Picture</a>
+            </div>
+          </li>
+          <li>
+            <li class="dropdown">
+                <a href="#">Certificate Portal</a>
+                <div class="dropdown-content">
+                    <a href="#">View Certificates</a>
+                    <a href="#">Download Certificate</a>
+                </div>
+              </li>
+        </ul>
+    </nav>
+</body>
+</html>
+
+{% block content %}{% endblock content %}

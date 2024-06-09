@@ -1,0 +1,58 @@
+{% extends 'SDMSapp/base.html'%}
+{% block content %}
+<div class="container">
+    <h2 id="player">Player Management</h2>
+    <div class="module">
+        <h3>Player Module</h3>
+        <p>Manage player profiles, statistics, and performance.<br></p>
+        <br>
+        <div class="module-actions">
+            <a href="{% url 'view_student' %}">View student</a>
+            <a href="{% url 'add_student' %}">add student</a>
+            <a href="{% url 'assign_student' %}">assign student</a>
+            <a href="{% url 'assignview_student' %}">assign view</a>
+        </div>
+    </div>
+        <h2 id="team">Team Management</h2>
+        <div class="module">
+            <h3>Team Module</h3>
+            <p>Manage teams, assign players, and track performance.</p>
+            <div class="module-actions">
+                <a href="view_items">View Teams</a>
+                <a href="#">Create Team</a>
+                <a href="#">edit Team</a>
+            </div>
+        </div>
+        
+        <h2 id="attendance">Attendance</h2>
+        <div class="module">
+            <h3>Attendance Module</h3>
+            <p>Track player attendance and manage leave requests.</p>
+            <div class="module-actions">
+                <a href="{% url 'mark_attendance' %}">mark attendance</a>
+                <a href="{% url 'view_attendance' %}">view attendance</a>
+            </div>
+        </div>
+        
+        <h2 id="gallery">Picture Gallery</h2>
+        <div class="module">
+            <h3>Gallery Module</h3>
+            <p>Explore pictures of team members and events.</p>
+            <div class="module-actions">
+                <a href="#">View Gallery</a>
+                <a href="#">Upload Picture</a>
+            </div>
+        </div>
+        
+        <h2 id="certificate">Certificate Portal</h2>
+        <div class="module">
+            <h3>Certificate Module</h3>
+            <p>Download certificates for achievements and awards.</p>
+            <div class="module-actions">
+                <a href="#">View Certificates</a>
+                <a href="#">Download Certificate</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

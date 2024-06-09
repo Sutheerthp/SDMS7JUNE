@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Assignments</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:nth-child(odd) {
+        background-color: #fff;
+    }
+</style>
+</head>
+<body>
+    <h1>Assign of student to each team</h1>
+    <table>
+        <tr>
+            <th>slno</th>
+            <th>Student</th>
+            <th>Item</th>
+            <th>Player Status</th>
+            <th>Team Selection</th>
+            <th>Position</th>
+            <th>Year</th>
+            <th>action</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.stud.name }}</td>
+            <td>{{ item.item.item_name }}</td>
+            <td>{{ item.player_status }}</td>
+            <td>{{ item.uty_team_selection }}</td>
+            <td>{{ item.position }}</td>
+            <td>{{ item.year }}</td>
+            <td>
+                <a  style='margin-right:16px' href="{% url 'confirm_assign_delete' item.id %}">
+                    <button>Delete</button>
+                </a>
+                <a style='margin-right:16px' href="{% url 'edit_assignment' item.id %}">
+                    <button>edit</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

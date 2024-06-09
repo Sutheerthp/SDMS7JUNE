@@ -1,0 +1,128 @@
+{% extends 'SDMSapp/base.html'%}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        footer {
+            background-color: white;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0px;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Students</h1>
+    <!-- <form action="{% url 'view_student' %}" method="GET">
+        <label for="search_input">Search:</label>
+        <input type="text" id="search_input" name="search" placeholder="Enter name or UTY Reg No">
+        <input type="submit" value="Search">
+    </form> -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Year of Admission</th>
+                <th>Admission No</th>
+                <th>Programme ID</th>
+                <th>UTY Reg No</th>
+                <th>Place</th>
+                <th>department</th>
+                <th>dob</th>
+                <th>City</th>
+                <th>District</th>
+                <th>Pincode</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.year_of_admission }}</td>
+                <td>{{ student.admission_no }}</td>
+                <td>{{ student.programme_id }}</td>
+                <td>{{ student.uty_reg_no }}</td>
+                <td>{{ student.place }}</td>
+                <td>{{ student.department }} </td>
+                <td>{{ student.dob }} </td>
+                <td>{{ student.city }}</td>
+                <td>{{ student.district }}</td>
+                <td>{{ student.pincode }}</td>
+                <td>
+                    <a  style='margin-right:16px' href="{% url 'confirm_delete_student' student.uty_reg_no %}">
+                        <button>Delete</button>
+                    </a>
+                    <a style='margin-right:16px' href="{% url 'edit_student' student.uty_reg_no %}">
+                        <button>edit</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <footer>
+        <a
+             href="{% url 'home' %}" class="back-button">Back to Home
+        </a>
+    </footer>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            margin-right:170px;
+            text-align: left;
+            color: #333;
+            margin-left:-170px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+        <h1>Edit Student</h1>
+        <form method="POST" action="{% url 'edit_student' student.uty_reg_no %}">
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ student.name }}" required><br>
+
+            <label for="year_of_admission">Year of Admission:</label>
+            <input type="text" id="year_of_admission" name="year_of_admission" value="{{ student.year_of_admission }}" required><br>
+
+            <label for="admission_no">Admission No:</label>
+            <input type="text" id="admission_no" name="admission_no" value="{{ student.admission_no }}" required><br>
+
+            <label for="programme_id">Programme ID:</label>
+            <select id="programme_id" name="programme_id" required>
+                {% for programme in programmes %}
+                    <option value="{{ programme.id }}" {% if programme.id == student.programme_id.id %}selected{% endif %}>{{ programme.name }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="place">Place:</label>
+            <input type="text" id="place" name="place" value="{{ student.place }}" required><br>
+
+            <label for="department">Department:</label>
+            <select id="department" name="department" required>
+                {% for department in departments %}
+                    <option value="{{ department.dept_name }}" >{{ department.dept_name }}</option>
+                {% endfor %}
+            </select><br>
+            
+            <label for="dob">dob:</label>
+            <input type="date" id="dob" name="dob" value="{{ student.dob }}" required><br>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" value="{{ student.city }}" required><br>
+
+            <label for="district">District:</label>
+            <input type="text" id="district" name="district" value="{{ student.district }}" required><br>
+
+            <label for="pincode">Pincode:</label>
+            <input type="text" id="pincode" name="pincode" value="{{ student.pincode }}" required><br>
+
+            <button type="submit">Update</button>
+        </form>
+</body>
+</html>
