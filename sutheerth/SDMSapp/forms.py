@@ -1,8 +1,13 @@
 # forms.py
 from django import forms
 from .models import *
+from django.core.validators import RegexValidator
 
 class StudentForm(forms.ModelForm):
+    dob = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False
+    )
     class Meta:
         model = Student
         fields = '__all__'
@@ -36,10 +41,36 @@ class StudItemForm(forms.ModelForm):
 
 
 class AttendanceForm(forms.ModelForm):
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False
+    )
     class Meta:
         model = Attendance
         fields = ['student', 'date', 'item', 'hour_1', 'hour_2', 'hour_3', 'hour_4', 'hour_5']
 
+class PictureUploadForm(forms.ModelForm):
+    class Meta:
+        model = Picture
+        fields = ['item', 'year', 'image']
+
+class AssignStudentsToTeamForm(forms.Form):
+    item = forms.ModelChoiceField(queryset=Item.objects.all(), label='Select Item')
+    students = forms.ModelMultipleChoiceField(
+        queryset=Student.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label='Select Students'
+    )
+
+    def __init__(self, *args, **kwargs):
+        assigned_students = kwargs.pop('assigned_students', None)
+        super(AssignStudentsToTeamForm, self).__init__(*args, **kwargs)
+        if assigned_students:
+            self.fields['students'].initial = assigned_students
+
+        # Customize the labels for the student checkboxes
+        self.fields['students'].queryset = Student.objects.all()
+        self.fields['students'].label_from_instance = lambda obj: f"{obj.name} - {obj.uty_reg_no}"
 
 # class DepartmentForm(forms.ModelForm):
 #     class Meta:

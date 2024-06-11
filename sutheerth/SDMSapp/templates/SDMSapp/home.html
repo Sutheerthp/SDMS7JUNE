@@ -19,8 +19,6 @@
             <p>Manage teams, assign players, and track performance.</p>
             <div class="module-actions">
                 <a href="view_items">View Teams</a>
-                <a href="#">Create Team</a>
-                <a href="#">edit Team</a>
             </div>
         </div>
         
@@ -39,8 +37,8 @@
             <h3>Gallery Module</h3>
             <p>Explore pictures of team members and events.</p>
             <div class="module-actions">
-                <a href="#">View Gallery</a>
-                <a href="#">Upload Picture</a>
+                <a href="{% url 'upload_picture' %}">View Gallery</a>
+                <a href="{% url 'view_pictures' %}">Upload Picture</a>
             </div>
         </div>
         

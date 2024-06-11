@@ -66,6 +66,7 @@
             <th>Student Name</th>
             <th>Registration Number</th>
             <th>Team</th>
+            <th>Date</th>
             <th>Hour 1 </th>
             <th>Hour 2 </th>
             <th>Hour 3 </th>
@@ -78,6 +79,7 @@
             <td>{{ attendance.student }}</td>
             <td>{{ attendance.student.uty_reg_no}}</td>
             <td>{{ attendance.item.item_name }}</td>
+            <td>{{ attendance.date }}</td>
             <td>{{ attendance.hour_1_missed|yesno:"Not Missed,Missed" }}</td>
             <td>{{ attendance.hour_2_missed|yesno:"Not Missed,Missed" }}</td>
             <td>{{ attendance.hour_3_missed|yesno:"Not Missed,Missed" }}</td>

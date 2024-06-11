@@ -26,4 +26,8 @@ urlpatterns = [
     path('mark_attendance/', mark_attendance, name='mark_attendance'),
     path('view_attendance/', view_attendance, name='view_attendance'),
     path('delete_attendance/<int:attendance_id>/', delete_attendance, name='delete_attendance'),
+    path('upload_picture/', upload_picture, name='upload_picture'),
+    path('view_pictures/', view_pictures, name='view_pictures'),
+    path('download_picture/<int:picture_id>/', download_picture, name='download_picture'),
+    path('assign_players/', assign_players, name='assign_players'),
 ]

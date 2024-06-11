@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -125,6 +125,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_TEMPLATE = 'path/to/your/custom/login/login.html'
 LOGIN_REQIURED_URL = '/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"  # Set the absolute path to your media directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Set the absolute path to your media directory
 
-
+DEBUG = True

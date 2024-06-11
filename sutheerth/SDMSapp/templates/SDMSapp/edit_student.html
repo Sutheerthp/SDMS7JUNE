@@ -108,6 +108,12 @@
                 {% endfor %}
             </select><br>
             
+            <label for="phone_number">phone_number:</label>
+            <input type="text" id="phone_number" placeholder="10 digits" name="phone_number" value="{{ student.phone_number }}" required><br>
+
+            <label for="aadhar_number">aadhar_number:</label>
+            <input type="text" id="aadhar_number" placeholder="16 digits" name="aadhar_number" value="{{ student.aadhar_number }}" required><br>
+
             <label for="dob">dob:</label>
             <input type="date" id="dob" name="dob" value="{{ student.dob }}" required><br>
 

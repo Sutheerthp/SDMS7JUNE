@@ -12,6 +12,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from SDMSapp.models import Student, Programme, Department  # Import your models
 from .forms import *
+from datetime import datetime
+from django.http import HttpResponse
 
 #from .forms import PlayerForm, Player, DepartmentForm, Sportform
 
@@ -96,6 +98,8 @@ def edit_student(request, uty_reg_no):
         year_of_admission = request.POST.get('year_of_admission')
         admission_no = request.POST.get('admission_no')
         department_id = request.POST.get('department_id')
+        phone_number = request.POST.get('phone_number')
+        aadhar_number = request.POST.get('aadhar_number')
         dob = request.POST.get('dob')
         programme_id = request.POST.get('programme_id')
         place = request.POST.get('place')
@@ -114,6 +118,8 @@ def edit_student(request, uty_reg_no):
         edit.programme = programme
         edit.place = place
         edit.department = department
+        edit.phone_number = phone_number
+        edit.aadhar_number = aadhar_number
         edit.dob = dob
         edit.city = city
         edit.district = district
@@ -242,3 +248,50 @@ def delete_attendance(request, attendance_id):
         return redirect('view_attendance')  # Replace with your attendance list view name
     else:
         return redirect('view_attendance')
+
+
+def upload_picture(request):
+    if request.method == 'POST':
+        form = PictureUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_picture')
+    else:
+        form = PictureUploadForm()
+    return render(request, 'SDMSapp/upload_picture.html', {'form': form})
+
+def view_pictures(request):
+    items = Item.objects.all()
+    pictures = []
+    current_year = datetime.now().year
+    if 'item' in request.GET and 'year' in request.GET:
+        item_id = request.GET.get('item')
+        year = request.GET.get('year')
+        pictures = Picture.objects.filter(item_id=item_id, year=year)
+    return render(request, 'SDMSapp/view_picture.html', {'items': items, 'pictures': pictures, 'current_year': current_year})
+
+def download_picture(request, picture_id):
+    picture = get_object_or_404(Picture, pk=picture_id)
+    response = HttpResponse(picture.image, content_type='image/jpeg')
+    response['Content-Disposition'] = f'attachment; filename="{picture.image.name}"'
+    return response
+
+@login_required
+def assign_players(request):
+    if request.method == 'POST':
+        form = AssignStudentsToTeamForm(request.POST)
+        if form.is_valid():
+            item = form.cleaned_data['item']
+            selected_students = form.cleaned_data['students']
+            # Remove existing assignments for the selected item
+            Stud_item.objects.filter(item=item).delete()
+            # Assign selected students to the item
+            for student in selected_students:
+                Stud_item.objects.create(stud=student, item=item)
+            return redirect('success_page')  # Redirect to a success page or another appropriate page
+    else:
+        item_id = request.GET.get('item_id')
+        assigned_students = Stud_item.objects.filter(item_id=item_id).values_list('stud', flat=True)
+        form = AssignStudentsToTeamForm(assigned_students=assigned_students)
+
+    return render(request, 'SDMSapp/assign_players.html', {'form': form})

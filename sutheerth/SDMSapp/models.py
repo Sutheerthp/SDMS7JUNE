@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 class Department(models.Model):
     dept_name = models.CharField(max_length=50)
@@ -19,6 +20,16 @@ class Student(models.Model):
     uty_reg_no = models.CharField(max_length=50, unique = True)
     place = models.CharField(max_length=50)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    phone_number = models.CharField(
+        max_length=10,
+        validators=[RegexValidator(regex='^\d{10}$', message='Phone number must be 10 to 15 digits')],
+        default = 0
+    )
+    aadhar_number = models.CharField(
+        max_length=16,
+        validators=[RegexValidator(regex='^\d{16}$', message='Aadhaar number must be exactly 16 digits')],
+        default = 0
+    )
     dob = models.DateField(null =True)
     city = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
@@ -110,3 +121,11 @@ class Attendance(models.Model):
 
     def __str__(self):
         return f"{self.student.name} - {self.date}"
+
+class Picture(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    image = models.ImageField(upload_to='team_pictures')
+
+    def __str__(self):
+        return f"{self.team.name} - {self.year}"
