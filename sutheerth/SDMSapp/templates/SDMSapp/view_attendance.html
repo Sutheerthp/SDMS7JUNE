@@ -20,7 +20,8 @@
             font-weight: bold;
             margin-right: 10px;
         }
-        input[type="date"] {
+        input[type="date"],
+        select {
             padding: 5px;
             margin-right: 10px;
         }
@@ -59,6 +60,20 @@
     <form method="get">
         <label for="date">Select Date:</label>
         <input type="date" id="date" name="date" value="{{ selected_date }}">
+        <label for="student">Select Student:</label>
+        <select id="student" name="student">
+            <option value="">All Students</option>
+            {% for student in all_students %}
+                <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="sport">Select Sport:</label>
+        <select id="sport" name="sport">
+            <option value="">All Sports</option>
+            {% for sport in all_sports %}
+                <option value="{{ sport.id }}">{{ sport.name }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">View</button>
     </form>
     <table>
@@ -72,12 +87,12 @@
             <th>Hour 3 </th>
             <th>Hour 4 </th>
             <th>Hour 5 </th>
-            <th> action </th>
+            <th>Action</th>
         </tr>
         {% for attendance in attendance_records %}
         <tr>
             <td>{{ attendance.student }}</td>
-            <td>{{ attendance.student.uty_reg_no}}</td>
+            <td>{{ attendance.student.uty_reg_no }}</td>
             <td>{{ attendance.item.item_name }}</td>
             <td>{{ attendance.date }}</td>
             <td>{{ attendance.hour_1_missed|yesno:"Not Missed,Missed" }}</td>

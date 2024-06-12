@@ -295,3 +295,7 @@ def assign_players(request):
         form = AssignStudentsToTeamForm(assigned_students=assigned_students)
 
     return render(request, 'SDMSapp/assign_players.html', {'form': form})
+
+def view_profile(request, uty_reg_no):
+    student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
+    return render(request, 'SDMSapp/profile.html', {'student': student})

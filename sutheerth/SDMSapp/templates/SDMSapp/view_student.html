@@ -1,4 +1,4 @@
-{% extends 'SDMSapp/base.html'%}
+{% extends 'SDMSapp/base.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -62,70 +62,66 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .profile-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .profile-link:hover {
+            text-decoration: underline;
+        }
+        .action-buttons a button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .action-buttons a button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <h1>All Students</h1>
-    <!-- <form action="{% url 'view_student' %}" method="GET">
-        <label for="search_input">Search:</label>
-        <input type="text" id="search_input" name="search" placeholder="Enter name or UTY Reg No">
-        <input type="submit" value="Search">
-    </form> -->
     <table>
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Year of Admission</th>
-                <th>Admission No</th>
-                <th>Programme ID</th>
                 <th>UTY Reg No</th>
-                <th>Place</th>
                 <th>department</th>
-                <th>phone no</th>
-                <th>aadhar number</th>
-                <th>dob</th>
-                <th>City</th>
-                <th>District</th>
-                <th>Pincode</th>
-                <th>Action</th>
+                <th>Profile</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for student in students %}
             <tr>
                 <td>{{ student.name }}</td>
-                <td>{{ student.year_of_admission }}</td>
-                <td>{{ student.admission_no }}</td>
-                <td>{{ student.programme_id }}</td>
                 <td>{{ student.uty_reg_no }}</td>
-                <td>{{ student.place }}</td>
-                <td>{{ student.department }} </td>
-                <td>{{ student.phone_number }} </td>
-                <td>{{ student.aadhar_number }} </td>
-                <td>{{ student.dob }} </td>
-                <td>{{ student.city }}</td>
-                <td>{{ student.district }}</td>
-                <td>{{ student.pincode }}</td>
+                <td>{{ student.department }}</td>
                 <td>
-                    <a  style='margin-right:16px' href="{% url 'confirm_delete_student' student.uty_reg_no %}">
+                    <a class="profile-link" href="{% url 'view_profile' student.uty_reg_no %}">View Profile</a>
+                </td>
+                <td class="action-buttons">
+                    <a href="{% url 'confirm_delete_student' student.uty_reg_no %}">
                         <button>Delete</button>
                     </a>
-                    <a style='margin-right:16px' href="{% url 'edit_student' student.uty_reg_no %}">
-                        <button>edit</button>
+                    <a href="{% url 'edit_student' student.uty_reg_no %}">
+                        <button>Edit</button>
                     </a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="9">No students found.</td>
+                <td colspan="4">No students found.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <footer>
-        <a
-             href="{% url 'home' %}" class="back-button">Back to Home
-        </a>
+        <a href="{% url 'home' %}" class="back-button">Back to Home</a>
     </footer>
 </body>
 </html>

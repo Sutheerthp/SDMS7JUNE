@@ -15,14 +15,14 @@
             align-items: center;
             height: 100vh;
         }
-
+        
         h1 {
-            margin-right:170px;
+            margin-right: 170px;
             text-align: left;
             color: #333;
-            margin-left:-170px;
+            margin-left: -170px;
         }
-
+        
         form {
             background-color: #fff;
             padding: 20px;
@@ -31,13 +31,15 @@
             width: 800px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 80vh; /* Set a maximum height */
         }
-
+        
         label {
             margin-bottom: 5px;
             font-weight: bold;
         }
-
+        
         input, select {
             margin-bottom: 15px;
             padding: 10px;
@@ -46,7 +48,7 @@
             width: 100%;
             box-sizing: border-box;
         }
-
+        
         button {
             background-color: #4CAF50;
             color: white;
@@ -56,26 +58,27 @@
             cursor: pointer;
             font-size: 16px;
         }
-
+        
         button:hover {
             background-color: #45a049;
         }
-
+        
         .footer {
             position: absolute;
             bottom: 10px;
             width: 100%;
             text-align: center;
         }
-
+        
         .footer a {
             color: #4CAF50;
             text-decoration: none;
         }
-
+        
         .footer a:hover {
             text-decoration: underline;
         }
+        
     </style>
 </head>
 <body>

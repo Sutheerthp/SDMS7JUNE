@@ -85,7 +85,7 @@ button:hover {
         </tr>
         {% for stud_item in stud_items %}
         <tr>
-            <td>{{ stud_item.stud.name }}</td>
+            <td>{{ stud_item.stud.name }}<a href="{% url 'view_profile' stud_item.stud.uty_reg_no %}"><br>View</a></td>
             <td>{{ stud_item.player_status }}</td>
             <td>{{ stud_item.uty_team_selection }}</td>
             <td>{{ stud_item.position }}</td>
