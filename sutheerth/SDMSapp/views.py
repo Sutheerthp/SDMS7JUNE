@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from SDMSapp.models import Student, Stud_item
 from .forms import *
@@ -168,8 +169,16 @@ def assign_student(request):
     return render(request, 'SDMSapp/assign_student.html', {'form': form})
 
 def assignview_student(request):
-    items = Stud_item.objects.all()
-    return render(request, 'SDMSapp/assign_view.html', {'items': items})
+        query = request.GET.get('q')
+        if query:
+            assignments = Stud_item.objects.filter(
+                Q(stud__name__icontains=query) |
+                Q(stud__uty_reg_no__icontains=query) |
+                Q(item__item_name__icontains=query)
+            )
+        else:
+            assignments = Stud_item.objects.all()
+        return render(request, 'SDMSapp/search_assignments.html', {'assignments': assignments, 'query': query})
 
 @login_required
 def confirm_assign_delete(request, stud_id):
