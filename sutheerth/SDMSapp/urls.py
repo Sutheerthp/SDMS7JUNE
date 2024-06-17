@@ -30,5 +30,7 @@ urlpatterns = [
     path('view_pictures/', view_pictures, name='view_pictures'),
     path('download_picture/<int:picture_id>/', download_picture, name='download_picture'),
     path('assign_players/', assign_players, name='assign_players'),
-    path('view_profile/<str:uty_reg_no>/', view_profile, name='view_profile')
+    path('view_profile/<str:uty_reg_no>/', view_profile, name='view_profile'),
+    path('manage_certificate/', manage_certificate, name='manage_certificate'),
+    path('certificate_list/', certificate_list, name='certificate_list'),
 ]

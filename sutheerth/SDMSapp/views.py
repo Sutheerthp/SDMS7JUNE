@@ -308,3 +308,17 @@ def assign_players(request):
 def view_profile(request, uty_reg_no):
     student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
     return render(request, 'SDMSapp/profile.html', {'student': student})
+
+def manage_certificate(request):
+    if request.method == 'POST':
+        form = CertificateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('certificate_list')
+    else:
+        form = CertificateForm()
+    return render(request, 'SDMSapp/manage_certificate.html', {'form': form})
+
+def certificate_list(request):
+    certificates = Certificate.objects.all()
+    return render(request, 'SDMSapp/certificate_list.html', {'certificates': certificates})

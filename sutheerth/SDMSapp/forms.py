@@ -72,6 +72,19 @@ class AssignStudentsToTeamForm(forms.Form):
         self.fields['students'].queryset = Student.objects.all()
         self.fields['students'].label_from_instance = lambda obj: f"{obj.name} - {obj.uty_reg_no}"
 
+class CertificateForm(forms.ModelForm):
+    class Meta:
+        model = Certificate
+        fields = ['student', 'item', 'programme_id','department' , 'certificate_collected', 'year','item_postion']
+        widgets = {
+            'student': forms.Select(attrs={'class': 'form-control'}),
+            'item': forms.Select(attrs={'class': 'form-control'}),
+            'certificate_collected': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'programme_id' : forms.Select(attrs={'class': 'form-control'}),
+            'department' : forms.Select(attrs={'class': 'form-control'}),
+            'item_postion' : forms.Select(attrs={'class': 'form-control'}),
+        }
 # class DepartmentForm(forms.ModelForm):
 #     class Meta:
 #         model = Department

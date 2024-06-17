@@ -129,3 +129,30 @@ class Picture(models.Model):
 
     def __str__(self):
         return f"{self.team.name} - {self.year}"
+    
+class Certificate(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    certificate_collected = models.BooleanField(default=False)
+    year = models.IntegerField()
+    programme_id = models.ForeignKey(Programme, on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    item_postion_types = [
+
+        ('all_india_inter_university_1st', 'All India Inter University 1st'),
+        ('all_india_inter_university_2nd', 'All India Inter University 2nd'),
+        ('all_india_inter_university_3rd', 'All India Inter University 3rd'),
+        ('all_india_inter_university_participation', 'All India Inter University participation'),
+        ('south_zone_university_1st', 'South Zone University 1st'),
+        ('south_zone_university_2nd', 'South Zone University 2nd'),
+        ('south_zone_university_3rd', 'South Zone University 3rd'),
+        ('south_zone_university_participation', 'South Zone University participation'),
+        ('inter_collegiate_1st', 'Inter Collegiate 1st'),
+        ('inter_collegiate_2nd', 'Inter Collegiate 2nd'),
+        ('inter_collegiate_3rd', 'Inter Collegiate 3rd'),
+        ('inter_collegiate_participation', 'Inter Collegiate participation'),
+    ]
+    item_postion = models.CharField(max_length=40, choices=item_postion_types, default='Not Selected')
+
+    def __str__(self):
+        return f"{self.student.name} - {self.item.item_name}"    
