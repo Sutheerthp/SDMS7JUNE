@@ -1,56 +1,138 @@
-{% extends 'SDMSapp/base.html'%}
+{% extends 'SDMSapp/base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="container">
-    <h2 id="player">Player Management</h2>
-    <div class="module">
-        <h3>Player Module</h3>
-        <p>Manage player profiles, statistics, and performance.<br></p>
-        <br>
-        <div class="module-actions">
-            <a href="{% url 'view_student' %}">View student</a>
-            <a href="{% url 'add_student' %}">add student</a>
-            <a href="{% url 'assign_players' %}">assign student</a>
-            <a href="{% url 'assignview_student' %}">assign view</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Education Department</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('{% static "media/team_pictures/images.jpeg" %}') no-repeat center center;
+            background-size: cover;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+        .card-body h2 {
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .card-body p {
+            font-size: 1rem;
+            color: #666;
+            margin: 0 0 20px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button-group .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-group .btn:hover {
+            background-color: #0056b3;
+        }
+        @media (min-width: 768px) {
+            .cards {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: space-between;
+            }
+            .card {
+                flex: 0 1 calc(33.333% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cards">
+            <div class="card">
+                <img src="https://via.placeholder.com/300x300" alt="Physical Education Image">
+                <div class="card-body">
+                    <h2>Our Vision</h2>
+                    <p>To promote physical well-being and a healthy lifestyle through sports and activities.</p>
+                    <div class="button-group">
+                        <button class="btn">Learn More</button>
+                        <button class="btn">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="media/team_pictures/images.jpeg" alt="Physical Education Image">
+                <div class="card-body">
+                    <h2>Facilities</h2>
+                    <p>State-of-the-art gym, sports complex, and outdoor fields to cater to all sports needs.</p>
+                    <div class="button-group">
+                        <button class="btn">Learn More</button>
+                        <button class="btn">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/300x300" alt="Physical Education Image">
+                <div class="card-body">
+                    <h2>Programs</h2>
+                    <p>Wide range of sports and fitness programs designed for all ages and skill levels.</p>
+                    <div class="button-group">
+                        <button class="btn">Learn More</button>
+                        <button class="btn">Contact Us</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-        <h2 id="team">Team Management</h2>
-        <div class="module">
-            <h3>Team Module</h3>
-            <p>Manage teams, assign players, and track performance.</p>
-            <div class="module-actions">
-                <a href="view_items">View Teams</a>
-            </div>
-        </div>
-        
-        <h2 id="attendance">Attendance</h2>
-        <div class="module">
-            <h3>Attendance Module</h3>
-            <p>Track player attendance and manage leave requests.</p>
-            <div class="module-actions">
-                <a href="{% url 'mark_attendance' %}">mark attendance</a>
-                <a href="{% url 'view_attendance' %}">view attendance</a>
-            </div>
-        </div>
-        
-        <h2 id="gallery">Picture Gallery</h2>
-        <div class="module">
-            <h3>Gallery Module</h3>
-            <p>Explore pictures of team members and events.</p>
-            <div class="module-actions">
-                <a href="{% url 'upload_picture' %}">View Gallery</a>
-                <a href="{% url 'view_pictures' %}">Upload Picture</a>
-            </div>
-        </div>
-        
-        <h2 id="certificate">Certificate Portal</h2>
-        <div class="module">
-            <h3>Certificate Module</h3>
-            <p>Download certificates for achievements and awards.</p>
-            <div class="module-actions">
-                <a href="#">View Certificates</a>
-                <a href="#">Download Certificate</a>
-            </div>
-        </div>
-    </div>
+    <script>
+        // Add any JavaScript if needed
+    </script>
+</body>
+</html>
+
 
 {% endblock content %}
