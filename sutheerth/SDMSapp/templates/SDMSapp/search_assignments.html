@@ -1,14 +1,11 @@
+
+{% extends "SDMSapp/base.html" %}
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Search Assignments</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
         h1 {
             color: #333;
             text-align: center;
@@ -32,7 +29,7 @@
             background-color: #f1f1f1;
         }
         th {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
         }
         tr:nth-child(even) {
@@ -53,18 +50,18 @@
         }
         .search-container button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
         }
         .search-container button:hover {
-            background-color: #45a049;
+            background-color: #007bff;
         }
     </style>
 </head>
 <body>
-    <h1>Assign Student to Each Team</h1>
+    <h1>Assigned Student list</h1>
     <div class="search-container">
         <form method="get">
             <input type="text" name="q" placeholder="Search by student name..." value="{{ query }}">
@@ -106,3 +103,4 @@
     </table>
 </body>
 </html>
+{% endblock content %}

@@ -33,4 +33,5 @@ urlpatterns = [
     path('view_profile/<str:uty_reg_no>/', view_profile, name='view_profile'),
     path('manage_certificate/', manage_certificate, name='manage_certificate'),
     path('certificate_list/', certificate_list, name='certificate_list'),
+    path('hod-profile/', hod_profile, name='hod_profile')
 ]

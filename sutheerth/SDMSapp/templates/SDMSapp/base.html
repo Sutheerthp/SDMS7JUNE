@@ -11,14 +11,17 @@
             padding: 0;
         }
         header {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 20px 0;
+            background-color:#007bff;
+            color: white;
             text-align: center;
+            padding: 20px;
         }
         nav {
-            background-color: #2c3e50;
-            padding: 10px 0;
+            width: 97.9%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white;
+            padding: 10px 20px;
+            z-index: 100;
         }
         nav ul {
             list-style-type: none;
@@ -109,7 +112,7 @@
             margin-top: 10px;
         }
         .module-actions a {
-            background-color: #4CAF50;
+            babackground-color: #555;ckground-color: #4CAF50;
             color: #fff;
             text-decoration: none;
             padding: 5px 10px;
@@ -123,10 +126,11 @@
             background-color: #2c3e50;
             color: #fff;
             text-align: center;
-            padding: 10px 0;
+            padding: px 20px;
             position: fixed;
             width: 100%;
             bottom: 0;
+            z-index: 1; /* Ensure footer is above other elements */
         }
     </style>
 </head>
@@ -144,7 +148,7 @@
                 <div class="dropdown-content">
                     <a href="{% url 'view_student' %}">View Student</a>
                     <a href="{% url 'add_student' %}">Add Student</a>
-                    <a href="{% url 'assign_student' %}">Assign Student</a>
+                    <a href="{% url 'assign_players' %}">Assign players</a>
                     <a href="{% url 'assignview_student' %}">Assign View</a>
                 </div>
             </li>
@@ -180,7 +184,7 @@
           </li>
           <a href="{% url 'logout' %}" class="logout-form"><button class="logout-button">Logout</button></a>
         </ul>
-        
+
     </nav>
 
     <footer>
@@ -191,5 +195,5 @@
   {% block content %}{% endblock content %}
 </div>
 </html>
-    
+
 

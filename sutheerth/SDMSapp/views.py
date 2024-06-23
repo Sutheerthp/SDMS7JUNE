@@ -15,6 +15,7 @@ from SDMSapp.models import Student, Programme, Department  # Import your models
 from .forms import *
 from datetime import datetime
 from django.http import HttpResponse
+from django.db.utils import IntegrityError
 
 #from .forms import PlayerForm, Player, DepartmentForm, Sportform
 
@@ -230,8 +231,15 @@ def mark_attendance(request):
     if request.method == 'POST':
         form = AttendanceForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('success_page')  # Redirect to a success page or another view
+            date = form.cleaned_data.get('date')
+            if not date:
+                date = 'Not filled'  # Set date to "Not filled" if it's empty
+            try:
+                form.save()
+                return redirect('success_page')
+            except IntegrityError:
+                # Handle IntegrityError if needed
+                pass
     else:
         form = AttendanceForm()
     return render(request, 'SDMSapp/mark_attendance.html', {'form': form})
@@ -291,19 +299,20 @@ def assign_players(request):
         form = AssignStudentsToTeamForm(request.POST)
         if form.is_valid():
             item = form.cleaned_data['item']
-            selected_students = form.cleaned_data['students']
-            # Remove existing assignments for the selected item
-            Stud_item.objects.filter(item=item).delete()
-            # Assign selected students to the item
-            for student in selected_students:
-                Stud_item.objects.create(stud=student, item=item)
-            return redirect('success_page')  # Redirect to a success page or another appropriate page
-    else:
-        item_id = request.GET.get('item_id')
-        assigned_students = Stud_item.objects.filter(item_id=item_id).values_list('stud', flat=True)
-        form = AssignStudentsToTeamForm(assigned_students=assigned_students)
+            students = form.cleaned_data['students']
 
+            for student in students:
+                if not Stud_item.objects.filter(stud=student, item=item).exists():
+                    Stud_item.objects.create(stud=student, item=item)
+
+            return redirect('success_page')  # Redirect to success page after assigning
+    else:
+        form = AssignStudentsToTeamForm()
     return render(request, 'SDMSapp/assign_players.html', {'form': form})
+
+def view_profile(request, uty_reg_no):
+    student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
+    return render(request, 'SDMSapp/profile.html', {'student': student})
 
 def view_profile(request, uty_reg_no):
     student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
@@ -322,3 +331,6 @@ def manage_certificate(request):
 def certificate_list(request):
     certificates = Certificate.objects.all()
     return render(request, 'SDMSapp/certificate_list.html', {'certificates': certificates})
+
+def hod_profile(request):
+    return render(request, 'SDMSapp/hod_profile.html')

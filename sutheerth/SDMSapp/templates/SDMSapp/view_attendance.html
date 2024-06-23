@@ -1,13 +1,11 @@
+{% extends "SDMSapp/base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>View Attendance</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
         h1 {
             text-align: center;
             color: #333;
@@ -60,20 +58,9 @@
     <form method="get">
         <label for="date">Select Date:</label>
         <input type="date" id="date" name="date" value="{{ selected_date }}">
+        <label for="date">Select name/reg_no:</label>
+        <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">
         <label for="student">Select Student:</label>
-        <select id="student" name="student">
-            <option value="">All Students</option>
-            {% for student in all_students %}
-                <option value="{{ student.id }}">{{ student.name }}</option>
-            {% endfor %}
-        </select>
-        <label for="sport">Select Sport:</label>
-        <select id="sport" name="sport">
-            <option value="">All Sports</option>
-            {% for sport in all_sports %}
-                <option value="{{ sport.id }}">{{ sport.name }}</option>
-            {% endfor %}
-        </select>
         <button type="submit">View</button>
     </form>
     <table>
@@ -90,7 +77,7 @@
             <th>Action</th>
         </tr>
         {% for attendance in attendance_records %}
-        <tr>
+        <tr class="attendance-row">
             <td>{{ attendance.student }}</td>
             <td>{{ attendance.student.uty_reg_no }}</td>
             <td>{{ attendance.item.item_name }}</td>
@@ -109,4 +96,35 @@
         {% endfor %}
     </table>
 </body>
+<script>
+    function searchAttendance() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll(".attendance-row");
+
+        rows.forEach((row) => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    const debouncedSearchAttendance = debounce(searchAttendance, 300);
+
+    // Attach the debounced function to the input event
+    document.getElementById("searchInput").addEventListener("input", debouncedSearchAttendance);
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+</script>
+
 </html>
+{% endblock content %}

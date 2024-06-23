@@ -1,14 +1,10 @@
+{% extends 'SDMSapp/base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>View Assignments</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
     h1 {
         color: #333;
         text-align: center;
@@ -68,7 +64,7 @@
             <td>{{ item.position }}</td>
             <td>{{ item.year }}</td>
             <td>
-                <a  style='margin-right:16px' href="{% url 'confirm_assign_delete' item.id %}">
+                <a style='margin-right:16px' href="{% url 'confirm_assign_delete' item.id %}">
                     <button>Delete</button>
                 </a>
                 <a style='margin-right:16px' href="{% url 'edit_assignment' item.id %}">
@@ -80,3 +76,4 @@
     </table>
 </body>
 </html>
+{% endblock content %}

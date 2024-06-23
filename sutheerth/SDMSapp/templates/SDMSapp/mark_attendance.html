@@ -1,15 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mark Attendance</title>
-    <!-- Add your styles here -->
-</head>
-<body>
+{% extends 'SDMSapp/base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            padding-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"], button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+    </style>
     <h1>Mark Attendance</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button type="submit" class="submit-button">Save</button>
     </form>
-</body>
-</html>
+{% endblock content %}
