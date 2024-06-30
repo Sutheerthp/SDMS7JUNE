@@ -41,29 +41,38 @@
 </head>
 <body>
     <h1>Certificate Collection List</h1>
-    <table>
-        <tr>
-            <th>Student</th>
-            <th>UTY REGNO</th>
-            <th>Department</th>
-            <th>Programme</th>
-            <th>Year</th>
-            <th>Item</th>
-            <th>Certificate Collected</th>
-            <th>item_postion</th>
-        </tr>
-        {% for certificate in certificates %}
-        <tr>
-            <td>{{ certificate.student.name }}</td>
-            <td>{{ certificate.student.uty_reg_no }}</td>
-            <td>{{ certificate.student.department.dept_name }}</td>
-            <td>{{ certificate.student.programme_id.name }}</td>
-            <td>{{ certificate.year }}</td>
-            <td>{{ certificate.item.item_name }}</td>
-            <td>{{ certificate.certificate_collected }}</td>
-            <td>{{ certificate.item_postion }}</td>
-        </tr>
-        {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>UTY REGNO</th>
+                <th>Department</th>
+                <th>Programme</th>
+                <th>Year</th>
+                <th>Item</th>
+                <th>Certificate Collected</th>
+                <th>Item Position</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for certificate in certificates %}
+            <tr>
+                <td>{{ certificate.student.name }}</td>
+                <td>{{ certificate.student.uty_reg_no }}</td>
+                <td>{{ certificate.student.department.dept_name }}</td>
+                <td>{{ certificate.student.programme_id.name }}</td>
+                <td>{{ certificate.year }}</td>
+                <td>{{ certificate.item.item_name }}</td>
+                <td>{{ certificate.certificate_collected }}</td>
+                <td>{{ certificate.item_postion }}</td>
+                <td>
+                    <a href="{% url 'edit_certificate' certificate_id=certificate.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'delete_certificate' certificate_id=certificate.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this certificate?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>

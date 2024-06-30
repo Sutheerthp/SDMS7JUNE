@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from SDMSapp.models import Student, Stud_item
 from .forms import *
+from django.http import JsonResponse
 from django.views import View
 from .forms import SearchForm
 from django.contrib import messages
@@ -99,6 +100,7 @@ def edit_student(request, uty_reg_no):
         name = request.POST.get('name')
         year_of_admission = request.POST.get('year_of_admission')
         admission_no = request.POST.get('admission_no')
+        gender = request.POST.get('gender')
         department_id = request.POST.get('department_id')
         phone_number = request.POST.get('phone_number')
         aadhar_number = request.POST.get('aadhar_number')
@@ -117,7 +119,8 @@ def edit_student(request, uty_reg_no):
         edit.name = name
         edit.year_of_admission = year_of_admission
         edit.admission_no = admission_no
-        edit.programme = programme
+        edit.gender = gender
+        edit.programme_id = programme
         edit.place = place
         edit.department = department
         edit.phone_number = phone_number
@@ -195,12 +198,30 @@ def view_items(request):
     years = Stud_item.objects.values_list('year', flat=True).distinct()
     return render(request, 'SDMSapp/view_items.html', {'items': items, 'years': years})
 
-@login_required
+
 def view_players(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
-    year = request.GET.get('year')
-    stud_items = Stud_item.objects.filter(item=item, year=year)
-    return render(request, 'SDMSapp/view_players.html', {'item': item, 'stud_items': stud_items, 'year':year})
+    selected_year = request.GET.get('year', '')  # Get selected year from query params
+    selected_gender = request.GET.get('gender', '')  # Get selected gender from query params
+    
+    # Filter students based on item_id and optionally on selected year
+    stud_items = Stud_item.objects.filter(item_id=item_id)
+    
+    # Apply additional filter based on selected year
+    if selected_year:
+        stud_items = stud_items.filter(year=selected_year)
+    
+    # Apply additional filter based on selected gender
+    if selected_gender:
+        stud_items = stud_items.filter(stud__gender=selected_gender)
+
+    context = {
+        'item': item,
+        'stud_items': stud_items,
+        'selected_year': selected_year,
+        'selected_gender': selected_gender,
+    }
+    return render(request, 'SDMSapp/view_players.html', context)
 
 @login_required
 def edit_assign(request, id):
@@ -300,10 +321,11 @@ def assign_players(request):
         if form.is_valid():
             item = form.cleaned_data['item']
             students = form.cleaned_data['students']
+            gender = form.cleaned_data['gender']
 
             for student in students:
                 if not Stud_item.objects.filter(stud=student, item=item).exists():
-                    Stud_item.objects.create(stud=student, item=item)
+                    Stud_item.objects.create(stud=student, item=item, gender=gender)
 
             return redirect('success_page')  # Redirect to success page after assigning
     else:
@@ -334,3 +356,21 @@ def certificate_list(request):
 
 def hod_profile(request):
     return render(request, 'SDMSapp/hod_profile.html')
+
+def edit_certificate(request, certificate_id):
+    certificate = get_object_or_404(Certificate, id=certificate_id)
+    if request.method == 'POST':
+        form = CertificateForm(request.POST, instance=certificate)
+        if form.is_valid():
+            form.save()
+            return redirect('certificate_list')  # Redirect to certificate list page
+    else:
+        form = CertificateForm(instance=certificate)
+    return render(request, 'SDMSapp/edit_certificate.html', {'form': form})
+    
+def delete_certificate(request, certificate_id):
+    certificate = get_object_or_404(Certificate, id=certificate_id)
+    if request.method == 'POST':
+        certificate.delete()
+        return redirect('certificate_list')  # Redirect to certificate list page
+    return render(request, 'SDMSapp/delete_certificate.html', {'certificate': certificate})

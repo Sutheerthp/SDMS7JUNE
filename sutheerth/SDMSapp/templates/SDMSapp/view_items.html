@@ -5,60 +5,65 @@
 <head>
     <title>View Items</title>
     <style>
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-h1 {
-    text-align: center;
-    color: #333;
-}
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-table {
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #555;
+        }
 
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #555;
-}
+        tr:hover {
+            background-color: #f1f1f1;
+        }
 
-tr:hover {
-    background-color: #f1f1f1;
-}
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
 
-a {
-    text-decoration: none;
-    color: #3498db;
-    font-weight: bold;
-}
+        a:hover {
+            color: #2980b9;
+        }
 
-a:hover {
-    color: #2980b9;
-}
+        button {
+            padding: 8px 12px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-button {
-    padding: 8px 12px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        button:hover {
+            background-color: #2980b9;
+        }
 
-button:hover {
-    background-color: #2980b9;
-}
-
+        /* Style for select box */
+        select {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -66,7 +71,8 @@ button:hover {
     <table>
         <tr>
             <th>Item Name</th>
-            <th>Year
+            <th>Year</th>
+            <th>Gender</th>  <!-- Added column for Gender -->
             <th>Action</th>
         </tr>
         {% for item in items %}
@@ -76,15 +82,22 @@ button:hover {
                 <form action="{% url 'view_players' item.id %}" method="get">
                     <select name="year">
                         {% for year in years %}
-                            <option value="{{ year }}">{{ year }}</option>
+                            <option value="{{ year }}" {% if year == request.GET.year %} selected {% endif %}>{{ year }}</option>
                         {% endfor %}
                     </select>
-                    <th>
-                    <button type="submit">View Team</button>
-                    </th>
+            </td>
+            <td>
+                <select name="gender">
+                    <option value="">All</option>
+                    <option value="Male" {% if 'gender' in request.GET and request.GET.gender == 'Male' %} selected {% endif %}>Male</option>
+                    <option value="Female" {% if 'gender' in request.GET and request.GET.gender == 'Female' %} selected {% endif %}>Female</option>
+                </select>
+            </td>
+            <td>
+                <input type="hidden" name="item_id" value="{{ item.id }}">
+                <button type="submit">View Team</button>
                 </form>
             </td>
-        </tr>
         </tr>
         {% endfor %}
     </table>

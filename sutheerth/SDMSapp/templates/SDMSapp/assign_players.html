@@ -76,13 +76,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Assign Students to Item</h1>
+        <h1>Assign Students to item</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
             <p>
                 {{ form.item.label_tag }}<br>
                 {{ form.item }}
+            </p>
+            <p>
+                {{ form.gender.label_tag }}<br>
+                {{ form.gender }}
             </p>
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">

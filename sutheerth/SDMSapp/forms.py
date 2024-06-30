@@ -61,30 +61,17 @@ class AssignStudentsToTeamForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         label='Select Students'
     )
+    gender = forms.ChoiceField(choices=Stud_item.GENDER_CHOICES, required=True)
 
     def __init__(self, *args, **kwargs):
-        assigned_students = kwargs.pop('assigned_students', None)
-        super(AssignStudentsToTeamForm, self).__init__(*args, **kwargs)
-        if assigned_students:
-            self.fields['students'].initial = assigned_students
-
-        # Customize the labels for the student checkboxes
-        self.fields['students'].queryset = Student.objects.all()
-        self.fields['students'].label_from_instance = lambda obj: f"{obj.name} - {obj.uty_reg_no}"
+        super().__init__(*args, **kwargs)
+        if 'assigned_students' in kwargs:
+            self.fields['students'].initial = kwargs['assigned_students']
 
 class CertificateForm(forms.ModelForm):
     class Meta:
         model = Certificate
-        fields = ['student', 'item', 'programme_id','department' , 'certificate_collected', 'year','item_postion']
-        widgets = {
-            'student': forms.Select(attrs={'class': 'form-control'}),
-            'item': forms.Select(attrs={'class': 'form-control'}),
-            'certificate_collected': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'year': forms.NumberInput(attrs={'class': 'form-control'}),
-            'programme_id' : forms.Select(attrs={'class': 'form-control'}),
-            'department' : forms.Select(attrs={'class': 'form-control'}),
-            'item_postion' : forms.Select(attrs={'class': 'form-control'}),
-        }
+        fields = '__all__'
 # class DepartmentForm(forms.ModelForm):
 #     class Meta:
 #         model = Department

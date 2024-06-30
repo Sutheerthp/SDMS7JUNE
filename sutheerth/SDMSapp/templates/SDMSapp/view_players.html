@@ -81,6 +81,7 @@
 </head>
 <body>
     <h1>Team Members of {{ year }} for {{ item.item_name }}</h1>
+    <p>Selected Gender: {% if selected_gender %}{{ selected_gender }}{% else %}All{% endif %}</p>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search by student name" onkeyup="searchTable()">
     </div>

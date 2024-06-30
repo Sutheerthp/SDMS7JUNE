@@ -18,6 +18,11 @@ class Student(models.Model):
     admission_no = models.IntegerField()
     programme_id = models.ForeignKey(Programme, on_delete=models.CASCADE, null=True)
     uty_reg_no = models.CharField(max_length=50, unique = True)
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    ]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='Male')
     place = models.CharField(max_length=50)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     phone_number = models.CharField(
@@ -85,6 +90,11 @@ class Stud_item(models.Model):
     
     position = models.IntegerField(default=0)
     year = models.IntegerField(default=0)
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    ]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='Male')
 
     def __str__(self):
         return f"{self.stud.name} - {self.item.item_name}"

@@ -19,7 +19,7 @@
             margin-right: 10px;
         }
         input[type="date"],
-        select {
+        input[type="text"] {
             padding: 5px;
             margin-right: 10px;
         }
@@ -58,43 +58,45 @@
     <form method="get">
         <label for="date">Select Date:</label>
         <input type="date" id="date" name="date" value="{{ selected_date }}">
-        <label for="date">Select name/reg_no:</label>
-        <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">
-        <label for="student">Select Student:</label>
+        <label for="searchInput">Search:</label>
+        <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="debouncedSearchAttendance()">
         <button type="submit">View</button>
+        <button type="button" onclick="printTable()">Print</button>
     </form>
-    <table>
-        <tr>
-            <th>Student Name</th>
-            <th>Registration Number</th>
-            <th>Team</th>
-            <th>Date</th>
-            <th>Hour 1 </th>
-            <th>Hour 2 </th>
-            <th>Hour 3 </th>
-            <th>Hour 4 </th>
-            <th>Hour 5 </th>
-            <th>Action</th>
-        </tr>
-        {% for attendance in attendance_records %}
-        <tr class="attendance-row">
-            <td>{{ attendance.student }}</td>
-            <td>{{ attendance.student.uty_reg_no }}</td>
-            <td>{{ attendance.item.item_name }}</td>
-            <td>{{ attendance.date }}</td>
-            <td>{{ attendance.hour_1_missed|yesno:"Not Missed,Missed" }}</td>
-            <td>{{ attendance.hour_2_missed|yesno:"Not Missed,Missed" }}</td>
-            <td>{{ attendance.hour_3_missed|yesno:"Not Missed,Missed" }}</td>
-            <td>{{ attendance.hour_4_missed|yesno:"Not Missed,Missed" }}</td>
-            <td>{{ attendance.hour_5_missed|yesno:"Not Missed,Missed" }}</td>
-            <td>
-                <a  style='margin-right:16px' href="{% url 'delete_attendance' attendance.id %}">
-                    <button>Delete</button>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div id="attendanceTableContainer">
+        <table id="attendanceTable">
+            <tr>
+                <th>Student Name</th>
+                <th>Registration Number</th>
+                <th>Team</th>
+                <th>Date</th>
+                <th>Hour 1</th>
+                <th>Hour 2</th>
+                <th>Hour 3</th>
+                <th>Hour 4</th>
+                <th>Hour 5</th>
+                <th>Action</th>
+            </tr>
+            {% for attendance in attendance_records %}
+            <tr class="attendance-row">
+                <td>{{ attendance.student }}</td>
+                <td>{{ attendance.student.uty_reg_no }}</td>
+                <td>{{ attendance.item.item_name }}</td>
+                <td>{{ attendance.date }}</td>
+                <td>{{ attendance.hour_1_missed|yesno:"Not Missed,Missed" }}</td>
+                <td>{{ attendance.hour_2_missed|yesno:"Not Missed,Missed" }}</td>
+                <td>{{ attendance.hour_3_missed|yesno:"Not Missed,Missed" }}</td>
+                <td>{{ attendance.hour_4_missed|yesno:"Not Missed,Missed" }}</td>
+                <td>{{ attendance.hour_5_missed|yesno:"Not Missed,Missed" }}</td>
+                <td>
+                    <a href="{% url 'delete_attendance' attendance.id %}">
+                        <button>Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 <script>
     function searchAttendance() {
@@ -111,11 +113,6 @@
         });
     }
 
-    const debouncedSearchAttendance = debounce(searchAttendance, 300);
-
-    // Attach the debounced function to the input event
-    document.getElementById("searchInput").addEventListener("input", debouncedSearchAttendance);
-
     function debounce(func, wait) {
         let timeout;
         return function(...args) {
@@ -124,7 +121,19 @@
             timeout = setTimeout(() => func.apply(context, args), wait);
         };
     }
-</script>
 
+    const debouncedSearchAttendance = debounce(searchAttendance, 300);
+    document.getElementById("searchInput").addEventListener("input", debouncedSearchAttendance);
+
+    function printTable() {
+        const printContents = document.getElementById('attendanceTableContainer').innerHTML;
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();  // Reload the page to restore original contents
+    }
+</script>
 </html>
 {% endblock content %}

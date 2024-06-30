@@ -1,81 +1,197 @@
+{% extends 'SDMSapp/base.html' %}
+{% block content %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Assign Student to Item</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Students to Item</title>
     <style>
-        /* General styles */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    /* Form styles */
-    form {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    select,
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 14px;
-        color: #333;
-    }
-
-    button {
-        width: 100%;
-        padding: 10px;
-        background-color: #3498db;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    button:hover {
-        background-color: #2980b9;
-    }
-
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            padding-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"], button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .checkbox-list label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .submit-button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            float: right;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 <body>
-    <h1>Assign Student to Item</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Assign</button>
-    </form>
+    <div class="container">
+        <h1>Assign Students to Item</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <p>
+                {{ form.item.label_tag }}<br>
+                {{ form.item }}
+            </p>
+            <p>
+                {{ form.gender.label_tag }}<br>
+                {{ form.gender }}
+            </p>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">
+            </div>
+            <div class="checkbox-list">
+                <table class="checkbox-table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Name & UTY Reg No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for checkbox in form.students %}
+                        <tr>
+                            <td>
+                                {{ checkbox.tag }}
+                            </td><form method="post">
+                                {% csrf_token %}
+                                {{ form.non_field_errors }}
+                                <p>
+                                    {{ form.item.label_tag }}<br>
+                                    {{ form.item }}
+                                </p>
+                                <p>
+                                    {{ form.gender.label_tag }}<br>
+                                    {{ form.gender }}
+                                </p>
+                                <div class="search-container">
+                                    <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">
+                                </div>
+                                <div class="checkbox-list">
+                                    <table class="checkbox-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Check</th>
+                                                <th>Name & UTY Reg No</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for checkbox in form.students %}
+                                            <tr>
+                                                <td>
+                                                    {{ checkbox.tag }}
+                                                </td>
+                                                <td>{{ checkbox.choice_label }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit">Assign</button>
+                            </form>
+                            <td>{{ checkbox.choice_label }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit">Assign</button>
+        </form>
+        <div class="table-container">
+            <h2>Current Assignments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>UTY Reg No</th>
+                        <th>Item</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.stud.name }}</td>
+                        <td>{{ assignment.stud.uty_reg_no }}</td>
+                        <td>{{ assignment.item.item_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        function searchStudents() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const checkboxes = document.querySelectorAll(".checkbox-list .checkbox-table tbody tr");
+
+            checkboxes.forEach((checkbox) => {
+                const text = checkbox.innerText.toLowerCase();
+                if (text.includes(input)) {
+                    checkbox.style.display = "";
+                } else {
+                    checkbox.style.display = "none";
+                }
+            });
+        }
+
+        const debouncedSearchStudents = debounce(searchStudents, 300);
+        document.getElementById("searchInput").addEventListener("input", debouncedSearchStudents);
+    </script>
 </body>
 </html>
+{% endblock content %}
