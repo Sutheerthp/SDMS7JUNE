@@ -324,7 +324,6 @@ def assign_players(request):
             gender = form.cleaned_data['gender']
 
             for student in students:
-                if not Stud_item.objects.filter(stud=student, item=item).exists():
                     Stud_item.objects.create(stud=student, item=item, gender=gender)
 
             return redirect('success_page')  # Redirect to success page after assigning
