@@ -373,3 +373,52 @@ def delete_certificate(request, certificate_id):
         certificate.delete()
         return redirect('certificate_list')  # Redirect to certificate list page
     return render(request, 'SDMSapp/delete_certificate.html', {'certificate': certificate})
+
+@login_required
+def student_grace_marks(request):
+    year = request.GET.get('year', None)
+    stud_items = []
+
+    if year:
+        stud_items = Stud_item.objects.filter(year=year)
+        # Filter out students with zero grace marks and calculate grace marks
+        filtered_stud_items = []
+        for item in stud_items:
+            grace_mark = calculate_grace_mark(item.uty_team_selection, item.position)
+            if grace_mark > 0:
+                filtered_stud_items.append({
+                    'stud': item.stud.name,
+                    'item': item.item.item_name,
+                    'uty_team_selection': item.uty_team_selection,
+                    'position': item.position,
+                    'grace_mark': grace_mark
+                })
+        stud_items = filtered_stud_items
+
+    context = {
+        'year': year,
+        'stud_items': stud_items,
+    }
+    return render(request, 'SDMSapp/student_grace_mark.html', context)
+
+
+def calculate_grace_mark(team_selection, position):
+    grace_marks_map = {
+        'Selected': {
+            'default': 7,
+            '3': 8,
+            '2': 9,
+            '1': 10
+        },
+        'Not Selected': {
+            '1': 6,
+            '2': 5,
+            '3': 4,
+            'default': 0
+        }
+    }
+
+    if team_selection in grace_marks_map:
+        return grace_marks_map[team_selection].get(str(position), grace_marks_map[team_selection]['default'])
+
+    return 0
