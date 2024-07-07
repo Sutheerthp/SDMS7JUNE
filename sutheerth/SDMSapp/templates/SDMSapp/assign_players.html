@@ -53,6 +53,11 @@
             margin-top: 20px;
         }
 
+        select {
+            max-height: 200px; /* Set a maximum height for the dropdown */
+            overflow-y: auto;  /* Enable vertical scrolling */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -68,7 +73,10 @@
             background-color: #f2f2f2;
         }
 
-        /* Hover effect */
+        .footer-spacing {
+            margin-top: 90px; /* Adds space between the table and footer */
+        }
+        
         tr:hover {
             background-color: #f5f5f5;
         }
@@ -92,11 +100,11 @@
                 <input type="text" id="searchInput" placeholder="Search by student name, UTY Reg No, or department..." onkeyup="searchTable()">
             </div>
             <div class="checkbox-list">
-                <table class="checkbox-table">
+                <table class="checkbox-table" id="studentsTable">
                     <thead>
                         <tr>
                             <th>Check</th>
-                            <th>Name & UTY Reg No</th>
+                            <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,36 +123,27 @@
         </form>
     </div>
     <script>
-    </div>
-    <script>
-        function debounce(func, wait) {
-            let timeout;
-            return function(...args) {
-                const context = this;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(context, args), wait);
-            };
-        }
-
-        function searchStudents() {
-            const input = document.getElementById("searchInput").value.toLowerCase();
-            const checkboxes = document.querySelectorAll(".checkbox-list .checkbox-table tbody tr");
-
-            checkboxes.forEach((checkbox) => {
-                const text = checkbox.innerText.toLowerCase();
-                if (text.includes(input)) {
-                    checkbox.style.display = "";
-                } else {
-                    checkbox.style.display = "none";
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("studentsTable");
+            tr = table.getElementsByTagName("tr");
+            
+            for (i = 1; i < tr.length; i++) {  // Start from 1 to skip table header
+                tr[i].style.display = "none";  // Initially hide all rows
+                td = tr[i].getElementsByTagName("td");
+                if (td[1]) {  // Target the second column which has the Name & UTY Reg No
+                    txtValue = td[1].textContent || td[1].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
                 }
-            });
+            }
         }
-
-        const debouncedSearchStudents = debounce(searchStudents, 300);
-
-        // Attach the debounced function to the input event
-        document.getElementById("searchInput").addEventListener("input", debouncedSearchStudents);
     </script>
+    <div class="footer-spacing"></div>
 </body>
+
 </html>
 {% endblock content %}

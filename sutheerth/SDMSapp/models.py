@@ -31,8 +31,8 @@ class Student(models.Model):
         default = 0
     )
     aadhar_number = models.CharField(
-        max_length=16,
-        validators=[RegexValidator(regex='^\d{16}$', message='Aadhaar number must be exactly 16 digits')],
+        max_length=12,
+        validators=[RegexValidator(regex='^\d{12}$', message='Aadhaar number must be exactly 16 digits')],
         default = 0
     )
     dob = models.DateField(null =True)
@@ -58,7 +58,7 @@ class Student(models.Model):
     district = models.CharField(max_length=50,  choices=DISTRICT, default='Active')
     pincode = models.CharField(max_length=50)
     def __str__(self):
-        return str(self.name)
+        return f'{self.name} - {self.uty_reg_no}'
 
 class Item(models.Model):
     item_name = models.CharField(max_length=50)

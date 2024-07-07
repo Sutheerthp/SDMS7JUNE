@@ -36,4 +36,5 @@ urlpatterns = [
     path('edit_certificate/<int:certificate_id>/', edit_certificate, name='edit_certificate'),
     path('delete_certificate/<int:certificate_id>/', delete_certificate, name='delete_certificate'),
     path('student_grace_marks/', student_grace_marks, name='student_grace_marks'),
+    path('get_items_by_student/', get_items_by_student, name='get_items_by_student'),
 ]

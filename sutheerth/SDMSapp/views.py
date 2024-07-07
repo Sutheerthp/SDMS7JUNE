@@ -265,6 +265,11 @@ def mark_attendance(request):
         form = AttendanceForm()
     return render(request, 'SDMSapp/mark_attendance.html', {'form': form})
 
+def get_items_by_student(request):
+    student_id = request.GET.get('student_id')
+    items = Item.objects.filter(stud_item__student_id=student_id).values('id', 'item_name')
+    return JsonResponse(list(items), safe=False)
+
 @login_required
 def view_attendance(request):
     # Get attendance records for the selected date if provided
@@ -332,12 +337,23 @@ def assign_players(request):
     return render(request, 'SDMSapp/assign_players.html', {'form': form})
 
 def view_profile(request, uty_reg_no):
-    student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
-    return render(request, 'SDMSapp/profile.html', {'student': student})
+    student = Student.objects.get(uty_reg_no=uty_reg_no)
+    sports_details = Stud_item.objects.filter(stud=student).order_by('year')
+    
+    sports_details_by_year = {}
+    for detail in sports_details:
+        year = detail.year
+        if year not in sports_details_by_year:
+            sports_details_by_year[year] = []
+        sports_details_by_year[year].append(detail)
 
-def view_profile(request, uty_reg_no):
-    student = get_object_or_404(Student, uty_reg_no=uty_reg_no)
-    return render(request, 'SDMSapp/profile.html', {'student': student})
+    context = {
+        'student': student,
+        'sports_details': sports_details_by_year,
+    }
+    return render(request, 'SDMSapp/profile.html', context)
+
+
 
 def manage_certificate(request):
     if request.method == 'POST':

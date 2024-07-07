@@ -93,8 +93,9 @@
             <label for="phone_number">phone_number:</label>
             <input type="text" id="phone_number" placeholder="10 digits" name="phone_number" value="{{ student.phone_number }}" required><br>
 
-            <label for="aadhar_number">aadhar_number:</label>
-            <input type="text" id="aadhar_number" placeholder="16 digits" name="aadhar_number" value="{{ student.aadhar_number }}" required><br>
+            <label for="aadhar_number">Aadhar Number:</label>
+            <input type="text" id="aadhar_number" placeholder="12 digits" name="aadhar_number" value="{{ student.aadhar_number }}" maxlength="12" pattern="\d{12}" required oninput="validateAadharNumber(this)">
+
 
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" value="{{ student.dob|date:'Y-m-d' }}" required><br>
@@ -110,6 +111,16 @@
 
             <button type="submit">Update</button>
         </form>
+        <script>
+            function validateAadharNumber(input) {
+                // Remove any non-numeric characters
+                input.value = input.value.replace(/\D/g, '');
+                // Truncate to 12 digits if it exceeds
+                if (input.value.length > 12) {
+                    input.value = input.value.slice(0, 12);
+                }
+            }
+        </script>
 </body>
 </html>
 {% endblock content %}
